@@ -18,6 +18,11 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.get("/",(req,res)=>{
+    res.setHeader("Access-Control-Allow-Credentials",true);
+    res.setHeader("Access-Control-Allow-Origin: *");
+    
+});
 const url="mongodb+srv://ujjwalparsai109:ujjwal6660@cluster0.0shrke3.mongodb.net/blogpage"
 
 mongoose.connect(url)
