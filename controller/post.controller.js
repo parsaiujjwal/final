@@ -111,3 +111,32 @@ export const getPostById = async (request, response) => {
         return response.status(500).json({ error: "internal server error", status: false });
     }
 }
+
+export const deletepost = (request, response) => {
+    console.log("check1")
+    Post.findByIdAndDelete({ _id: request.body.postId })
+        .then(result => {
+            if (!result) {
+                console.log("page not found ")
+                return response.status(404).json({ message: "Post not found", status: false });
+            }
+            return response.status(200).json({ message: "Post deleted", status: true });
+        })
+        .catch(err => {
+            console.log(err)
+            return response.status(500).json({ error: "Internal server error", status: false });
+        });
+};
+
+export const editblog = async (request, response, next) => {
+    try {
+        let post = await Post.updateOne({ _id: request.body.id }, {
+            $set: {
+                caption: request.body.caption,              
+            }
+        })
+        return response.status(200).json({ message: " Post updated ... ", status: true })
+    } catch (err) {
+        return response.status(500).json({ message: " Post updated failed ... ", status: false })
+    }
+}
